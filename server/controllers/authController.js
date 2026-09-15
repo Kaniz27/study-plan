@@ -4,7 +4,8 @@ import { validationResult } from 'express-validator';
 import User from '../models/User.js';
 import { memoryStore } from '../utils/memoryStore.js';
 
-const cookieOptions = { httpOnly: true, sameSite: 'lax', secure: process.env.NODE_ENV === 'production', maxAge: 7 * 24 * 60 * 60 * 1000 };
+const isProduction = process.env.NODE_ENV === 'production';
+const cookieOptions = { httpOnly: true, sameSite: isProduction ? 'none' : 'lax', secure: isProduction, maxAge: 7 * 24 * 60 * 60 * 1000 };
 const publicUser = (user) => ({ id: user._id, name: user.name, email: user.email, completedDates: user.completedDates });
 
 export async function register(req, res, next) {

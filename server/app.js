@@ -8,6 +8,9 @@ import taskRoutes from './routes/taskRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { seedDemoUser, memoryStore } from './utils/memoryStore.js';
 import studyRoutes from './routes/studyRoutes.js';
+import scheduleRoutes from './routes/scheduleRoutes.js';
+import transactionRoutes from './routes/transactionRoutes.js';
+import quizRoutes from './routes/quizRoutes.js';
 
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
@@ -16,6 +19,9 @@ app.use(cookieParser());
 app.get('/api/health', (req, res) => res.json({ status: 'ok', service: 'StudyFlow API', database: memoryStore.enabled ? 'in-memory' : 'mongodb', hasMongoUri: Boolean(process.env.MONGO_URI) }));
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/schedules', scheduleRoutes);
+app.use('/api/transactions', transactionRoutes);
+app.use('/api/quiz-attempts', quizRoutes);
 app.use('/api', studyRoutes);
 app.use(errorHandler);
 

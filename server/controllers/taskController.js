@@ -16,7 +16,7 @@ export async function listTasks(req, res, next) {
 
 export async function createTask(req, res, next) {
   try {
-    if (memoryStore.enabled) { const task = { ...req.body, _id: `task-${Date.now()}`, userId: req.user._id, isCompleted: false, createdAt: new Date().toISOString() }; memoryStore.tasks.unshift(task); return res.status(201).json({ task }); }
+    if (memoryStore.enabled) { const task = { ...req.body, subject: req.body.subject || 'Others', priority: req.body.priority || 'Medium', _id: `task-${Date.now()}`, userId: req.user._id, isCompleted: false, createdAt: new Date().toISOString() }; memoryStore.tasks.unshift(task); return res.status(201).json({ task }); }
     res.status(201).json({ task: await Task.create({ ...req.body, userId: req.user._id }) });
   } catch (error) { next(error); }
 }
